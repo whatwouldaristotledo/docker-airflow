@@ -12,12 +12,12 @@ services:
                 max-file: "3"
 
     webserver:
-        image: puckel/docker-airflow:1.10.9
+        build: .
         restart: always
         depends_on:
             - postgres
         environment:
-            - LOAD_EX=n
+            - LOAD_EX=y
             - EXECUTOR=Local
         logging:
             options:
@@ -25,7 +25,8 @@ services:
                 max-file: "3"
         volumes:
             - ./dags:/usr/local/airflow/dags
-            # - ./plugins:/usr/local/airflow/plugins
+            - ./requirements.txt:/requirements.txt
+            # ./plugins:/usr/local/airflow/plugins
         ports:
             - "8080:8080"
         command: webserver
